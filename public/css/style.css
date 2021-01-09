@@ -1,0 +1,95 @@
+::-webkit-scrollbar {
+    width: 10px;
+}
+  
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #202020; 
+}
+
+.d_link{
+    color: #00aaa2;
+}
+
+.d_link:hover{
+    color: #028079;
+    text-decoration:none; 
+}
+
+.my_msg{
+    background-color: #00aaa2 !important;
+    border-radius: 10px;
+}
+
+.msg{
+    border-radius: 10px;
+}
+
+.gradent{
+    background-image: url(../images/background.jpg);
+}
+
+.bg-s_dark{
+    background-color: #202020 !important;
+}
+
+.bg-s_dark-50{
+    background-color: #202020ce !important;
+}
+
+.bg-white-50{
+    background-color: #ffffffce !important;
+}
+
+.text_principal_dark{
+    color: #00fff2 !important;
+}
+
+.text_principal_light{
+    color: #00aaa2 !important;
+}
+
+.navbar{
+    border-radius: 10px;
+}
+
+.border{
+    border-radius: 10px !important;
+}
+
+.d_btn_input{
+    border-color: #202020 !important;
+}
+
+.d_btn_input:hover{
+    border-color: #00fff2 !important;
+}
+
+.d_btn{
+    margin-left: 5px;
+    background-color:  transparent;
+}
+
+.d_btn:hover{
+    
+    background-color: #7777771e;
+}
+
+.d_input{
+    border-color: #202020 !important;
+}
+
+.d_input:focus{
+    border-color: #00fff2 !important;
+}
+
+.d_input:hover{
+    border-color: #00fff2 !important;
+}
+
+.text_black{
+    color: black !important;
+}
+
+/* 00fff2 */
