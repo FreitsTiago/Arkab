@@ -1,5 +1,5 @@
 const socket = io();
-var audio = new Audio('/files/sounds/new_mesage_sound.wav');
+var audio = new Audio('/sounds/new_mesage_sound.wav');
 var disconnect = false;
 var blur = false;
 var joined = false;
