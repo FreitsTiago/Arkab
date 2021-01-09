@@ -4,7 +4,7 @@ var fs = require('fs');
 
 const server_name = 'Fuego Chat';
 
-var dir = '/public';
+var dir = 'public';
 
 app.use('/', function (req, res) {
   if (req.url == '/') {
