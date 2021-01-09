@@ -4,28 +4,27 @@ var fs = require('fs');
 
 const server_name = 'Fuego Chat';
 
-var __dirname = 'public';
+var dir = '/public';
 
 app.use('/', function (req, res) {
-    if (req.url == '/') {
-        var content = fs.readFileSync(__dirname + '/index.html');
+  if (req.url == '/') {
+    var content = fs.readFileSync(dir + '/index.html');
+    res.end(content);
+  } else {
+    try {
+      try {
+        var content = fs.readFileSync(dir + req.url + '.html');
         res.end(content);
-    } else {
-        try {
-            try {
-                var content = fs.readFileSync(__dirname + req.url + '.html');
-                res.end(content);
-            } catch {
-                var content = fs.readFileSync(__dirname + req.url);
-                res.end(content);
-            };
-        } catch {
-            var content = fs.readFileSync(__dirname + '/404.html');
-            res.status(404);
-            res.end(content);
-        };
+      } catch {
+        var content = fs.readFileSync(dir + req.url);
+        res.end(content);
+      };
+    } catch {
+      var content = fs.readFileSync(dir + '/404.html');
+      res.status(404);
+      res.end(content);
     };
-
+  };
 });
 
 function get_hour() {
@@ -93,6 +92,6 @@ io.on("connection", function (client) {
 });
 
 
-http.listen(19132, function () {
-  console.log('Server ONLINE');
+http.listen(process.env.PORT || 19132, function () {
+  console.log("Server is online in: " + process.env.PORT);
 });
