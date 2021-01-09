@@ -2,7 +2,7 @@ var app = require('express')();
 var http = require('http').Server(app);
 var fs = require('fs');
 
-const server_name = 'Fuego Chat';
+const server_name = 'Arkab Oficial';
 
 var dir = './public';
 
