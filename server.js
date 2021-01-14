@@ -68,11 +68,11 @@ io.on("connection", function (client) {
 
   client.on("disconnect", function () {
     console.log("Disconnect");
-    if(arkab.search({ item: 'id', value: client.id }, 'name', clients) != 'not_found'){
-      io.emit("status", "left", arkab.search({ item: 'id', value: client.id }, 'name', clients));
+    if(!arkab.search({ item: 'id', value: client.id }, 'name', clients)){
+      console.log('nonexistent user')
     }else{
-      console.log('tava certo!')
-    }
+      io.emit("status", "left", arkab.search({ item: 'id', value: client.id }, 'name', clients));
+    };
     clients = arkab.delete({ item: 'id', value: client.id }, clients);
   });
 });

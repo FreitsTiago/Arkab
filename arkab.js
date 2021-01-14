@@ -21,7 +21,7 @@ exports.exist = (value, item, list) => {
 // Este é o item: 'name'
 // Este é o retorno: 'milena'
 exports.search = (reference, item, list) => {
-    var value_ = 'not_found';
+    var value_ = false;
     list.forEach(function (cell) {
         if (cell[reference.item] == reference.value) {
             value_ = cell[item];
