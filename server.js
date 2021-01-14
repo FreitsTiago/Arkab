@@ -1,10 +1,19 @@
-var app = require('express')();
-var http = require('http').Server(app);
-var fs = require('fs');
-
+// Aréa de definição inical
+const app = require('express')();
+const http = require('http').Server(app);
+const fs = require('fs');
+const io = require('socket.io')(http);
+const low = require('lowdb');
+const FileSync = require('lowdb/adapters/FileSync')
+const arkab = require('./arkab');
 const server_name = 'Arkab Oficial';
 
-var dir = './public';
+// Aréa do banco de dados
+const db = low(new FileSync('mesages_history.json'));
+//db.defaults({ mesages: [] }).write() // Usado para criar a parte das mensagens no arquivo
+
+// Aréa do servidor express
+const dir = './public';
 
 app.use('/', function (req, res) {
   if (req.url == '/') {
@@ -27,67 +36,44 @@ app.use('/', function (req, res) {
   };
 });
 
-function get_hour() {
-  var date = new Date();
-  var day = date.getDate()
-  var mes = date.getMonth() + 1;
-  var hour = date.getHours();
-  var min = date.getMinutes();
-  if (mes < 10) {
-    var month = '0' + mes;
-  } else {
-    var month = mes;
-  };
-  if (day < 10) {
-    var dayy = '0' + day;
-  } else {
-    var dayy = day;
-  };
-  if (hour < 10) {
-    var hours = '0' + hour;
-  } else {
-    var hours = hour;
-  };
-  if (min < 10) {
-    var minutes = '0' + min;
-  } else {
-    var minutes = min;
-  };
-  var end = hours + ':' + minutes + ' - ' + dayy + '/' + month;
-  return end;
-};
-
-var io = require('socket.io')(http);
-var clients = {};
-var history = [];
+// Aréa do socketIO
+var clients = [];
 
 io.on("connection", function (client) {
   io.emit("status", "started");
 
   client.on("join", function (name) {
-    console.log("Joined: " + name);
-    client.emit("status", "conected", server_name);
-    client.emit("history", history);
-    client.broadcast.emit("status", "join", name)
-    clients[client.id] = name;
+    if (!arkab.exist(name, 'name', clients)) {
+      console.log("Joined: " + name);
+      clients.push({ id: client.id, name: name });
+      client.emit("status", "conected", server_name);
+      client.emit("history", db.get('mesages').value());
+      client.broadcast.emit("status", "join", name);
+    } else {
+      client.emit("status", "name_used");
+    };
   });
 
   client.on("send", function (msg) {
     console.log("Message: " + msg);
-    var time = get_hour();
+    var time = arkab.get_hours();
     obj = {
-      name: clients[client.id],
+      name: arkab.search({ item: 'id', value: client.id }, 'name', clients),
       msg: msg,
       hour: time
     };
-    history.push(obj)
+    db.get('mesages').push(obj).write();
     client.broadcast.emit("chat", obj);
   });
 
   client.on("disconnect", function () {
     console.log("Disconnect");
-    io.emit("status", "left", clients[client.id]);
-    delete clients[client.id];
+    if(arkab.search({ item: 'id', value: client.id }, 'name', clients) != 'not_found'){
+      io.emit("status", "left", arkab.search({ item: 'id', value: client.id }, 'name', clients));
+    }else{
+      console.log('tava certo!')
+    }
+    clients = arkab.delete({ item: 'id', value: client.id }, clients);
   });
 });
 

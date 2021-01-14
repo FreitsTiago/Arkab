@@ -5,6 +5,7 @@ var blur = false;
 var joined = false;
 var notification = true;
 var server_name = null;
+var conected_content_show = false;
 
 $(window).focus(function () {
   blur = false;
@@ -61,32 +62,11 @@ window.onresize = function () {
 
 function get_hour() {
   var date = new Date();
-  var day = date.getDate()
-  var mes = date.getMonth() + 1;
-  var hour = date.getHours();
-  var min = date.getMinutes();
-  if (mes < 10) {
-    var month = '0' + mes;
-  } else {
-    var month = mes;
-  };
-  if (day < 10) {
-    var dayy = '0' + day;
-  } else {
-    var dayy = day;
-  };
-  if (hour < 10) {
-    var hours = '0' + hour;
-  } else {
-    var hours = hour;
-  };
-  if (min < 10) {
-    var minutes = '0' + min;
-  } else {
-    var minutes = min;
-  };
-  var end = hours + ':' + minutes + ' - ' + dayy + '/' + month;
-  return end;
+    if ((date.getMonth() + 1) < 10) {var month = '0' + (date.getMonth() + 1)} else {var month = (date.getMonth() + 1)};
+    if (date.getDate() < 10) {var day = '0' + date.getDate()} else {var day = date.getDate()};
+    if (date.getHours() < 10) {var hours = '0' + date.getHours()} else {var hours = date.getHours()};
+    if (date.getMinutes() < 10) {var minutes = '0' + date.getMinutes()} else {var minutes = date.getMinutes()};
+    return hours + ':' + minutes + ' - ' + day + '/' + month;
 };
 
 function join() {
@@ -190,6 +170,7 @@ socket.on('status', function (stts, complement) {
     $('#input_mesage').select();
     server_name = complement;
     joined = true;
+    conected_content_show = true;
   };
   if (stts == 'join') {
     if (localStorage.theme == 'dark') {
@@ -241,6 +222,27 @@ socket.on('status', function (stts, complement) {
     var objDiv = document.getElementById("mesages");
     objDiv.scrollTop = objDiv.scrollHeight;
   };
+  if (stts == 'name_used') {
+    if (localStorage.theme == 'dark') {
+      var bg = 'bg-s_dark-50';
+      var txt1 = 'text-white';
+      var txt2 = 'text-light';
+    };
+    if (localStorage.theme == 'light') {
+      var bg = 'bg-white-50';
+      var txt1 = 'text-black';
+      var txt2 = 'text-dark';
+    };
+    $('#disconnected_error_messages').append('\
+      <a class="list-group-item list-group-item-action flex-column align-items-start mb-1 msg '+ bg + '">\
+        <div class="d-flex w-100 justify-content-between">\
+          <h5 class="mb-1 '+ txt1 + ' text-center">Este nome já esta sendo usado neste servidor!</h5>\
+          </div>\
+        </a>\
+  ');
+    var objDiv = document.getElementById("mesages");
+    objDiv.scrollTop = objDiv.scrollHeight;
+  };
 });
 
 socket.on('history', function (history) {
@@ -257,12 +259,20 @@ socket.on('chat', function (msg) {
 socket.on('disconnect', function () {
   disconnect = true;
   joined = false;
-  $('#server_name').text(server_name + ' - Desconectado');
+  if(conected_content_show){
+    $('#server_name').text(server_name + ' - Desconectado');
+  }else{
+    $('#server_name').text('Arkab - Desconectado');
+  };
 });
 
 socket.on('connect', () => {
-  if (disconnect == true) {
-    socket.emit('join', $('#input_name').val());
-    disconnect = false;
+  if (disconnect) {
+    if(conected_content_show){
+      socket.emit('join', $('#input_name').val());
+      disconnect = false;
+    }else{
+      $('#server_name').text('Arkab');
+    }
   };
 });
