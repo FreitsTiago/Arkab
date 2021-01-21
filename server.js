@@ -12,7 +12,7 @@ const dir = './public';
 var configs = {};
 
 // Aréa de configurações
-if(process.env.SERVER_NAME == null || process.env.SERVER_PORT == null || process.env.MAX_MESAGES_DB == null || process.env.MAX_USERS == null){
+if(process.env.NAME == null || process.env.PORT == null || process.env.MAX_MESAGES_DB == null || process.env.MAX_USERS == null){
   try{
     configs = require('./config.js');
     if(configs.server_name == null || configs.server_port == null || configs.max_mesages_db == null || configs.max_users == null){
@@ -68,7 +68,7 @@ io.on("connection", function (client) {
     }else{
       clients.push({ id: client.id, name: obj.name , user_id: obj.id});
       console.log("Joined: " + obj.name +" #" + obj.id + ' ' + clients.length + '/' + (process.env.MAX_USERS || configs.max_users || 150));
-      client.emit("status", "conected", process.env.SERVER_NAME || configs.server_name || 'unnamed server');
+      client.emit("status", "conected", process.env.NAME || configs.server_name || 'unnamed server');
       client.emit("history", db.get('mesages').value());
       client.broadcast.emit("status", "join", obj, ' ' + clients.length + '/' + (process.env.MAX_USERS || configs.max_users || 150));
     };
@@ -105,9 +105,9 @@ io.on("connection", function (client) {
 });
 
 
-http.listen(process.env.SERVER_PORT || configs.server_port || 8080, function () {
-  console.log('Server is online in: ' + (process.env.SERVER_PORT || configs.server_port || 8080));
-  console.log('Server name: ' + (process.env.SERVER_NAME || configs.server_name || 'unnamed server'));
+http.listen(process.env.PORT || configs.server_port || 8080, function () {
+  console.log('Server is online in: ' + (process.env.PORT || configs.server_port || 8080));
+  console.log('Server name: ' + (process.env.NAME || configs.server_name || 'unnamed server'));
   console.log('Numero max de msg salvas: ' + (process.env.MAX_MESAGES_DB || configs.max_mesages_db || 650));
   console.log('Numero max de usuarios oline: ' + (process.env.MAX_USERS || configs.max_users || 150));
 });
