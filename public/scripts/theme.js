@@ -1,6 +1,6 @@
 // Template da lista de temas {light:'',dark:''}
 var themes = [{light:'bg-white',dark:'bg-s_dark'},{light:'text-black',dark:'text-white'},{light:'text-dark',dark:'text-light'},{light:'text_principal_light',dark:'text_principal_dark'},{light:'bg-white-50',dark:'bg-s_dark-50'}]
-var svg_theme = ['creator_btn','notifi_btn']
+var svg_theme = ['creator_btn','notifi_btn','bug_button','setting_button']
 
 function load(){
     if(localStorage.theme == 'light'){

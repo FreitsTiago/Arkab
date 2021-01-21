@@ -22,6 +22,16 @@
     border-radius: 10px;
 }
 
+.marked_msg_dark{
+    background-color: #ffffffa6 !important;
+    border-radius: 4px;
+}
+
+.marked_msg_light{
+    background-color: #000000a6 !important;
+    border-radius: 4px;
+}
+
 .msg{
     border-radius: 10px;
 }
@@ -67,7 +77,6 @@
 }
 
 .d_btn{
-    margin-left: 5px;
     background-color:  transparent;
 }
 
