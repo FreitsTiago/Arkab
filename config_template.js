@@ -1,6 +1,6 @@
 // ARKAB - CONFIGS
 // Aqui você configura seu servidor de acordo com seus gostos e necessidades
-// Caso queria pode usar variaveis locais, são as seguintes porta: SERVER_PORT, nome: SERVER_NAME, maximo de mensagens: MAX_MESAGES_DB, maximo de ususarios: MAX_USERS
+// Caso queria pode usar variaveis locais, são as seguintes porta: PORT, nome: NAME, maximo de mensagens: MAX_MESAGES_DB, maximo de ususarios: MAX_USERS
 
 const configs = {
     server_name: 'Arkab Server', // Aqui você coloca o nome que desaja que seu servidor tenha entre as ""
