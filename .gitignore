@@ -1,2 +1,5 @@
 node_modules
 changelog.txt
+config.js
+messages_DB.json
+users_DB.json
